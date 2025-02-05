@@ -46,6 +46,14 @@ const TambahDanDaftarTugas = () => {
     return <div>Loading...</div>;
   }
 
+  const sortedTasks = tasks.sort((a, b) => {
+    if (a.prioritas === b.prioritas) return 0;
+    return a.prioritas === 'Tinggi' ? -1 : 1;
+  });
+
+  const completedTasks = sortedTasks.filter(task => task.status);
+  const incompleteTasks = sortedTasks.filter(task => !task.status);
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="container mx-auto p-4">
@@ -109,7 +117,7 @@ const TambahDanDaftarTugas = () => {
           </button>
         </form>
 
-        <h2 className="text-2xl font-bold mt-8 mb-4">Daftar Tugas</h2>
+        <h2 className="text-2xl font-bold mt-8 mb-4">Daftar Tugas Belum Selesai</h2>
         <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
           <thead className="bg-gray-200">
             <tr>
@@ -121,7 +129,44 @@ const TambahDanDaftarTugas = () => {
             </tr>
           </thead>
           <tbody>
-            {tasks.map((task, index) => (
+            {incompleteTasks.map((task, index) => (
+              <tr key={index}>
+                <td className="py-2 px-4 border-b">{task.nama}</td>
+                <td className="py-2 px-4 border-b">{task.prioritas}</td>
+                <td className="py-2 px-4 border-b">{task.status ? 'Selesai' : 'Belum Selesai'}</td>
+                <td className="py-2 px-4 border-b">{task.tanggal}</td>
+                <td className="py-2 px-4 border-b flex space-x-2">
+                  <button
+                    className="bg-blue-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
+                    onClick={() => handleUpdateTask(task.id, { status: !task.status })}
+                  >
+                    {task.status ? 'Tandai Belum Selesai' : 'Tandai Selesai'}
+                  </button>
+                  <button
+                    className="bg-red-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
+                    onClick={() => handleDeleteTask(task.id)}
+                  >
+                    Hapus
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <h2 className="text-2xl font-bold mt-8 mb-4">Daftar Tugas Telah Selesai</h2>
+        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+          <thead className="bg-gray-200">
+            <tr>
+              <th className="py-2 px-4 border-b">Nama Tugas</th>
+              <th className="py-2 px-4 border-b">Prioritas</th>
+              <th className="py-2 px-4 border-b">Status</th>
+              <th className="py-2 px-4 border-b">Tanggal</th>
+              <th className="py-2 px-4 border-b">Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {completedTasks.map((task, index) => (
               <tr key={index}>
                 <td className="py-2 px-4 border-b">{task.nama}</td>
                 <td className="py-2 px-4 border-b">{task.prioritas}</td>
