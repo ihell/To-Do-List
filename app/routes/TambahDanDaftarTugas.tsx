@@ -10,10 +10,16 @@ interface Task {
   tanggal: string;
 }
 
+/**
+ * Komponen utama untuk menambah dan menampilkan daftar tugas.
+ */
 const TambahDanDaftarTugas = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
 
+  /**
+   * Mengambil data tugas dari Firestore saat komponen pertama kali dimuat.
+   */
   useEffect(() => {
     const fetchTasks = async () => {
       const tasksCollection = collection(db, 'toDoList');
@@ -26,17 +32,32 @@ const TambahDanDaftarTugas = () => {
     fetchTasks();
   }, []);
 
+  /**
+   * Menambahkan tugas baru ke Firestore dan memperbarui state `tasks`.
+   * @param {string} nama - Nama tugas.
+   * @param {string} prioritas - Prioritas tugas (Tinggi/Rendah).
+   * @param {string} tanggal - Tanggal tugas.
+   */
   const handleAddTask = async (nama: string, prioritas: string, tanggal: string) => {
     const newTask = { nama, prioritas, status: false, tanggal };
     const docRef = await addDoc(collection(db, 'toDoList'), newTask);
     setTasks([...tasks, { id: docRef.id, ...newTask }]);
   };
 
+  /**
+   * Menghapus tugas dari Firestore dan memperbarui state `tasks`.
+   * @param {string} id - ID tugas yang akan dihapus.
+   */
   const handleDeleteTask = async (id: string) => {
     await deleteDoc(doc(db, 'toDoList', id));
     setTasks(tasks.filter(task => task.id !== id));
   };
 
+  /**
+   * Memperbarui tugas di Firestore dan memperbarui state `tasks`.
+   * @param {string} id - ID tugas yang akan diperbarui.
+   * @param {Partial<Task>} updatedTask - Objek tugas yang diperbarui.
+   */
   const handleUpdateTask = async (id: string, updatedTask: Partial<Task>) => {
     await updateDoc(doc(db, 'toDoList', id), updatedTask);
     setTasks(tasks.map(task => (task.id === id ? { ...task, ...updatedTask } : task)));
