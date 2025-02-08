@@ -89,8 +89,9 @@ const TambahDanDaftarTugas = () => {
             handleAddTask(nama, prioritas, tanggal);
             form.reset();
           }}
+          className="space-y-4"
         >
-          <div className="mb-4">
+          <div>
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nama">
               Nama Tugas
             </label>
@@ -103,7 +104,7 @@ const TambahDanDaftarTugas = () => {
               required
             />
           </div>
-          <div className="mb-4">
+          <div>
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="prioritas">
               Prioritas
             </label>
@@ -117,7 +118,7 @@ const TambahDanDaftarTugas = () => {
               <option value="Rendah">Rendah</option>
             </select>
           </div>
-          <div className="mb-4">
+          <div>
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="tanggal">
               Tanggal
             </label>
@@ -131,7 +132,7 @@ const TambahDanDaftarTugas = () => {
             />
           </div>
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full sm:w-auto"
             type="submit"
           >
             Tambah Tugas
@@ -139,78 +140,82 @@ const TambahDanDaftarTugas = () => {
         </form>
 
         <h2 className="text-2xl font-bold mt-8 mb-4">Daftar Tugas Belum Selesai</h2>
-        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-          <thead className="bg-gray-200">
-            <tr>
-              <th className="py-2 px-4 border-b">Nama Tugas</th>
-              <th className="py-2 px-4 border-b">Prioritas</th>
-              <th className="py-2 px-4 border-b">Status</th>
-              <th className="py-2 px-4 border-b">Tanggal</th>
-              <th className="py-2 px-4 border-b">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            {incompleteTasks.map((task, index) => (
-              <tr key={index}>
-                <td className="py-2 px-4 border-b">{task.nama}</td>
-                <td className="py-2 px-4 border-b">{task.prioritas}</td>
-                <td className="py-2 px-4 border-b">{task.status ? 'Selesai' : 'Belum Selesai'}</td>
-                <td className="py-2 px-4 border-b">{task.tanggal}</td>
-                <td className="py-2 px-4 border-b flex space-x-2">
-                  <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
-                    onClick={() => handleUpdateTask(task.id, { status: !task.status })}
-                  >
-                    {task.status ? 'Tandai Belum Selesai' : 'Tandai Selesai'}
-                  </button>
-                  <button
-                    className="bg-red-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
-                    onClick={() => handleDeleteTask(task.id)}
-                  >
-                    Hapus
-                  </button>
-                </td>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead className="bg-gray-200">
+              <tr>
+                <th className="py-2 px-4 border-b">Nama Tugas</th>
+                <th className="py-2 px-4 border-b">Prioritas</th>
+                <th className="py-2 px-4 border-b">Status</th>
+                <th className="py-2 px-4 border-b">Tanggal</th>
+                <th className="py-2 px-4 border-b">Aksi</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {incompleteTasks.map((task, index) => (
+                <tr key={index}>
+                  <td className="py-2 px-4 border-b">{task.nama}</td>
+                  <td className="py-2 px-4 border-b">{task.prioritas}</td>
+                  <td className="py-2 px-4 border-b">{task.status ? 'Selesai' : 'Belum Selesai'}</td>
+                  <td className="py-2 px-4 border-b">{task.tanggal}</td>
+                  <td className="py-2 px-4 border-b flex space-x-2">
+                    <button
+                      className="bg-blue-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
+                      onClick={() => handleUpdateTask(task.id, { status: !task.status })}
+                    >
+                      {task.status ? 'Tandai Belum Selesai' : 'Tandai Selesai'}
+                    </button>
+                    <button
+                      className="bg-red-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
+                      onClick={() => handleDeleteTask(task.id)}
+                    >
+                      Hapus
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         <h2 className="text-2xl font-bold mt-8 mb-4">Daftar Tugas Telah Selesai</h2>
-        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-          <thead className="bg-gray-200">
-            <tr>
-              <th className="py-2 px-4 border-b">Nama Tugas</th>
-              <th className="py-2 px-4 border-b">Prioritas</th>
-              <th className="py-2 px-4 border-b">Status</th>
-              <th className="py-2 px-4 border-b">Tanggal</th>
-              <th className="py-2 px-4 border-b">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            {completedTasks.map((task, index) => (
-              <tr key={index}>
-                <td className="py-2 px-4 border-b">{task.nama}</td>
-                <td className="py-2 px-4 border-b">{task.prioritas}</td>
-                <td className="py-2 px-4 border-b">{task.status ? 'Selesai' : 'Belum Selesai'}</td>
-                <td className="py-2 px-4 border-b">{task.tanggal}</td>
-                <td className="py-2 px-4 border-b flex space-x-2">
-                  <button
-                    className="bg-blue-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
-                    onClick={() => handleUpdateTask(task.id, { status: !task.status })}
-                  >
-                    {task.status ? 'Tandai Belum Selesai' : 'Tandai Selesai'}
-                  </button>
-                  <button
-                    className="bg-red-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
-                    onClick={() => handleDeleteTask(task.id)}
-                  >
-                    Hapus
-                  </button>
-                </td>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead className="bg-gray-200">
+              <tr>
+                <th className="py-2 px-4 border-b">Nama Tugas</th>
+                <th className="py-2 px-4 border-b">Prioritas</th>
+                <th className="py-2 px-4 border-b">Status</th>
+                <th className="py-2 px-4 border-b">Tanggal</th>
+                <th className="py-2 px-4 border-b">Aksi</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {completedTasks.map((task, index) => (
+                <tr key={index}>
+                  <td className="py-2 px-4 border-b">{task.nama}</td>
+                  <td className="py-2 px-4 border-b">{task.prioritas}</td>
+                  <td className="py-2 px-4 border-b">{task.status ? 'Selesai' : 'Belum Selesai'}</td>
+                  <td className="py-2 px-4 border-b">{task.tanggal}</td>
+                  <td className="py-2 px-4 border-b flex space-x-2">
+                    <button
+                      className="bg-blue-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
+                      onClick={() => handleUpdateTask(task.id, { status: !task.status })}
+                    >
+                      {task.status ? 'Tandai Belum Selesai' : 'Tandai Selesai'}
+                    </button>
+                    <button
+                      className="bg-red-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
+                      onClick={() => handleDeleteTask(task.id)}
+                    >
+                      Hapus
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
