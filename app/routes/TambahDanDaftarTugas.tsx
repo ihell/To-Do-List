@@ -16,6 +16,7 @@ interface Task {
 const TambahDanDaftarTugas = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
 
   /**
    * Mengambil data tugas dari Firestore saat komponen pertama kali dimuat.
@@ -63,6 +64,24 @@ const TambahDanDaftarTugas = () => {
     setTasks(tasks.map(task => (task.id === id ? { ...task, ...updatedTask } : task)));
   };
 
+  /**
+   * Memulai proses pengeditan tugas.
+   * @param {Task} task - Tugas yang akan diedit.
+   */
+  const handleEditTask = (task: Task) => {
+    setEditingTask(task);
+  };
+
+  /**
+   * Menyimpan perubahan tugas yang sedang diedit.
+   */
+  const handleSaveEditTask = async () => {
+    if (editingTask) {
+      await handleUpdateTask(editingTask.id, editingTask);
+      setEditingTask(null);
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -86,7 +105,12 @@ const TambahDanDaftarTugas = () => {
             const nama = (form.elements.namedItem('nama') as HTMLInputElement).value;
             const prioritas = (form.elements.namedItem('prioritas') as HTMLSelectElement).value;
             const tanggal = (form.elements.namedItem('tanggal') as HTMLInputElement).value;
-            handleAddTask(nama, prioritas, tanggal);
+            if (editingTask) {
+              setEditingTask({ ...editingTask, nama, prioritas, tanggal });
+              handleSaveEditTask();
+            } else {
+              handleAddTask(nama, prioritas, tanggal);
+            }
             form.reset();
           }}
           className="space-y-4"
@@ -101,6 +125,7 @@ const TambahDanDaftarTugas = () => {
               type="text"
               placeholder="Nama Tugas"
               name="nama"
+              defaultValue={editingTask ? editingTask.nama : ''}
               required
             />
           </div>
@@ -112,6 +137,7 @@ const TambahDanDaftarTugas = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="prioritas"
               name="prioritas"
+              defaultValue={editingTask ? editingTask.prioritas : ''}
               required
             >
               <option value="Tinggi">Tinggi</option>
@@ -128,6 +154,7 @@ const TambahDanDaftarTugas = () => {
               type="date"
               placeholder="Tanggal"
               name="tanggal"
+              defaultValue={editingTask ? editingTask.tanggal : ''}
               required
             />
           </div>
@@ -135,7 +162,7 @@ const TambahDanDaftarTugas = () => {
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full sm:w-auto"
             type="submit"
           >
-            Tambah Tugas
+            {editingTask ? 'Simpan Perubahan' : 'Tambah Tugas'}
           </button>
         </form>
 
@@ -164,6 +191,12 @@ const TambahDanDaftarTugas = () => {
                       onClick={() => handleUpdateTask(task.id, { status: !task.status })}
                     >
                       {task.status ? 'Tandai Belum Selesai' : 'Tandai Selesai'}
+                    </button>
+                    <button
+                      className="bg-yellow-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
+                      onClick={() => handleEditTask(task)}
+                    >
+                      Edit
                     </button>
                     <button
                       className="bg-red-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
@@ -203,6 +236,12 @@ const TambahDanDaftarTugas = () => {
                       onClick={() => handleUpdateTask(task.id, { status: !task.status })}
                     >
                       {task.status ? 'Tandai Belum Selesai' : 'Tandai Selesai'}
+                    </button>
+                    <button
+                      className="bg-yellow-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
+                      onClick={() => handleEditTask(task)}
+                    >
+                      Edit
                     </button>
                     <button
                       className="bg-red-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
