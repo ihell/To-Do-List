@@ -172,6 +172,7 @@ const TambahDanDaftarTugas = () => {
               required
             >
               <option value="Tinggi">Tinggi</option>
+              <option value="Sedang">Sedang</option>
               <option value="Rendah">Rendah</option>
             </select>
           </div>
