@@ -16,6 +16,10 @@ export default {
           "Noto Color Emoji",
         ],
       },
+      animation: {
+        bounce: 'bounce 1s infinite',
+        spin: 'spin 1s linear infinite',
+      },
     },
   },
   plugins: [],

@@ -87,7 +87,16 @@ const TambahDanDaftarTugas = () => {
    * Menampilkan indikator loading jika data masih dalam proses pengambilan.
    */
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="bg-black min-h-screen flex flex-col items-center justify-center">
+        {/* Loader animasi titik-titik melingkar */}
+        <div className="relative w-12 h-12">
+          <div className="absolute w-full h-full border-4 border-t-transparent border-orange-500 rounded-full animate-spin"></div>
+        </div>
+        {/* Teks Loading */}
+        <p className="text-orange-500 mt-4 text-lg font-semibold">Loading...</p>
+      </div>
+    );
   }
 
   /**
