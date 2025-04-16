@@ -19,7 +19,8 @@ const TambahDanDaftarTugas = () => {
   const [editingTask, setEditingTask] = useState<Task | null>(null);
 
   /**
-   * Mengambil data tugas dari Firestore saat komponen pertama kali dimuat. 
+   * Mengambil data tugas dari Firestore saat komponen pertama kali dimuat.
+   * Data yang diambil akan disimpan dalam state `tasks`.
    */
   useEffect(() => {
     const fetchTasks = async () => {
@@ -35,7 +36,7 @@ const TambahDanDaftarTugas = () => {
 
   /**
    * Menambahkan tugas baru ke Firestore dan memperbarui state `tasks`.
-   * @param {string} nama - Nama tugas.
+   * @param {string} nama - Nama tugas yang akan ditambahkan.
    * @param {string} prioritas - Prioritas tugas (Tinggi/Rendah).
    * @param {string} tanggal - Tanggal tugas.
    */
@@ -46,7 +47,7 @@ const TambahDanDaftarTugas = () => {
   };
 
   /**
-   * Menghapus tugas dari Firestore dan memperbarui state `tasks`.
+   * Menghapus tugas dari Firestore berdasarkan ID dan memperbarui state `tasks`.
    * @param {string} id - ID tugas yang akan dihapus.
    */
   const handleDeleteTask = async (id: string) => {
@@ -55,7 +56,7 @@ const TambahDanDaftarTugas = () => {
   };
 
   /**
-   * Memperbarui tugas di Firestore dan memperbarui state `tasks`.
+   * Memperbarui tugas di Firestore berdasarkan ID dan memperbarui state `tasks`.
    * @param {string} id - ID tugas yang akan diperbarui.
    * @param {Partial<Task>} updatedTask - Objek tugas yang diperbarui.
    */
@@ -65,7 +66,7 @@ const TambahDanDaftarTugas = () => {
   };
 
   /**
-   * Memulai proses pengeditan tugas.
+   * Memulai proses pengeditan tugas dengan mengatur tugas yang dipilih ke state `editingTask`.
    * @param {Task} task - Tugas yang akan diedit.
    */
   const handleEditTask = (task: Task) => {
@@ -73,7 +74,7 @@ const TambahDanDaftarTugas = () => {
   };
 
   /**
-   * Menyimpan perubahan tugas yang sedang diedit.
+   * Menyimpan perubahan tugas yang sedang diedit ke Firestore dan memperbarui state `tasks`.
    */
   const handleSaveEditTask = async () => {
     if (editingTask) {
@@ -82,15 +83,24 @@ const TambahDanDaftarTugas = () => {
     }
   };
 
+  /**
+   * Menampilkan indikator loading jika data masih dalam proses pengambilan.
+   */
   if (loading) {
     return <div>Loading...</div>;
   }
 
+  /**
+   * Mengurutkan tugas berdasarkan prioritas (Tinggi di atas Rendah).
+   */
   const sortedTasks = tasks.sort((a, b) => {
     if (a.prioritas === b.prioritas) return 0;
     return a.prioritas === 'Tinggi' ? -1 : 1;
   });
 
+  /**
+   * Memisahkan tugas yang sudah selesai dan belum selesai.
+   */
   const completedTasks = sortedTasks.filter(task => task.status);
   const incompleteTasks = sortedTasks.filter(task => !task.status);
 
@@ -98,12 +108,12 @@ const TambahDanDaftarTugas = () => {
     <div className="bg-black min-h-screen h-full flex flex-col text-white overflow-hidden">
       {/* Header */}
       <header className="bg-orange-500 text-white py-6 shadow-md">
-        <h1 className="text-4xl font-bold text-center">Aplikasi To-Do List</h1>
+        <h1 className="text-4xl font-bold text-center font-serif italic">Taskly</h1>
       </header>
 
       {/* Main Content */}
       <main className="flex-grow p-4 sm:p-6 overflow-y-auto">
-        <h1 className="text-3xl font-bold text-orange-500 mb-6">Tambah Tugas</h1>
+        <h1 className="text-3xl font-bold text-orange-500 mb-6 font-serif italic">Tambah Tugas</h1>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -174,7 +184,7 @@ const TambahDanDaftarTugas = () => {
         </form>
 
         {/* Daftar Tugas */}
-        <h2 className="text-3xl font-bold text-orange-500 mt-10 mb-6">Daftar Tugas Belum Selesai</h2>
+        <h2 className="text-3xl font-bold text-orange-500 mt-10 mb-6 font-serif italic">Daftar Tugas Belum Selesai</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-gray-800 shadow-md rounded-lg overflow-hidden">
             <thead className="bg-orange-500">
@@ -219,7 +229,7 @@ const TambahDanDaftarTugas = () => {
           </table>
         </div>
 
-        <h2 className="text-3xl font-bold text-orange-500 mt-10 mb-6">Daftar Tugas Telah Selesai</h2>
+        <h2 className="text-3xl font-bold text-orange-500 mt-10 mb-6 font-serif italic">Daftar Tugas Telah Selesai</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-gray-800 shadow-md rounded-lg overflow-hidden">
             <thead className="bg-orange-500">
