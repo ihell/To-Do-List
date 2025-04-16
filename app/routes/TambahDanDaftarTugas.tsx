@@ -116,8 +116,13 @@ const TambahDanDaftarTugas = () => {
   return (
     <div className="bg-black min-h-screen h-full flex flex-col text-white overflow-hidden">
       {/* Header */}
-      <header className="bg-orange-500 text-white py-6 shadow-md">
-        <h1 className="text-4xl font-bold text-center font-serif italic">Taskly</h1>
+      <header className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white py-6 px-4 sm:px-8 shadow-lg">
+        <h1 className="text-4xl font-bold text-center font-sans tracking-wide font-serif italic">
+          Taskly
+        </h1>
+        <p className="text-center text-sm mt-2 font-light">
+          Kelola tugas Anda dengan mudah dan efisien
+        </p>
       </header>
 
       {/* Main Content */}
@@ -196,7 +201,7 @@ const TambahDanDaftarTugas = () => {
         <h2 className="text-3xl font-bold text-orange-500 mt-10 mb-6 font-serif italic">Daftar Tugas Belum Selesai</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-gray-800 shadow-md rounded-lg overflow-hidden">
-            <thead className="bg-orange-500">
+            <thead className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white py-6 px-4 sm:px-8 shadow-lg">
               <tr>
                 <th className="py-3 px-4 border-b text-white">Nama Tugas</th>
                 <th className="py-3 px-4 border-b text-white">Prioritas</th>
@@ -241,7 +246,7 @@ const TambahDanDaftarTugas = () => {
         <h2 className="text-3xl font-bold text-orange-500 mt-10 mb-6 font-serif italic">Daftar Tugas Telah Selesai</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-gray-800 shadow-md rounded-lg overflow-hidden">
-            <thead className="bg-orange-500">
+            <thead className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white py-6 px-4 sm:px-8 shadow-lg">
               <tr>
                 <th className="py-3 px-4 border-b text-white">Nama Tugas</th>
                 <th className="py-3 px-4 border-b text-white">Prioritas</th>
@@ -285,8 +290,10 @@ const TambahDanDaftarTugas = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-orange-500 text-white py-6 shadow-md">
-        <p className="text-center">&copy; 2025 Aplikasi To-Do List. Semua Hak Dilindungi.</p>
+      <footer className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white py-4 px-4 sm:px-8 border-t border-orange-400">
+        <p className="text-center text-sm font-light">
+          &copy; 2025 Taskly. Semua Hak Dilindungi.
+        </p>
       </footer>
     </div>
   );
