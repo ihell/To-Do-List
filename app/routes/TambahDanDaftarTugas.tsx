@@ -19,7 +19,7 @@ const TambahDanDaftarTugas = () => {
   const [editingTask, setEditingTask] = useState<Task | null>(null);
 
   /**
-   * Mengambil data tugas dari Firestore saat komponen pertama kali dimuat.
+   * Mengambil data tugas dari Firestore saat komponen pertama kali dimuat. 
    */
   useEffect(() => {
     const fetchTasks = async () => {
@@ -95,9 +95,15 @@ const TambahDanDaftarTugas = () => {
   const incompleteTasks = sortedTasks.filter(task => !task.status);
 
   return (
-    <div className="bg-gray-100 min-h-screen">
-      <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">Tambah Tugas</h1>
+    <div className="bg-black min-h-screen h-full flex flex-col text-white overflow-hidden">
+      {/* Header */}
+      <header className="bg-orange-500 text-white py-6 shadow-md">
+        <h1 className="text-4xl font-bold text-center">Aplikasi To-Do List</h1>
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-grow p-4 sm:p-6 overflow-y-auto">
+        <h1 className="text-3xl font-bold text-orange-500 mb-6">Tambah Tugas</h1>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -113,14 +119,15 @@ const TambahDanDaftarTugas = () => {
             }
             form.reset();
           }}
-          className="space-y-4"
+          className="space-y-6 bg-gray-800 p-6 rounded-lg shadow-md"
         >
+          {/* Form fields */}
           <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nama">
+            <label className="block text-orange-500 text-sm font-bold mb-2" htmlFor="nama">
               Nama Tugas
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border border-orange-500 rounded w-full py-2 px-3 text-gray-300 bg-black leading-tight focus:outline-none focus:ring-2 focus:ring-orange-500"
               id="nama"
               type="text"
               placeholder="Nama Tugas"
@@ -130,11 +137,11 @@ const TambahDanDaftarTugas = () => {
             />
           </div>
           <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="prioritas">
+            <label className="block text-orange-500 text-sm font-bold mb-2" htmlFor="prioritas">
               Prioritas
             </label>
             <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border border-orange-500 rounded w-full py-2 px-3 text-gray-300 bg-black leading-tight focus:outline-none focus:ring-2 focus:ring-orange-500"
               id="prioritas"
               name="prioritas"
               defaultValue={editingTask ? editingTask.prioritas : ''}
@@ -145,11 +152,11 @@ const TambahDanDaftarTugas = () => {
             </select>
           </div>
           <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="tanggal">
+            <label className="block text-orange-500 text-sm font-bold mb-2" htmlFor="tanggal">
               Tanggal
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border border-orange-500 rounded w-full py-2 px-3 text-gray-300 bg-black leading-tight focus:outline-none focus:ring-2 focus:ring-orange-500"
               id="tanggal"
               type="date"
               placeholder="Tanggal"
@@ -159,47 +166,48 @@ const TambahDanDaftarTugas = () => {
             />
           </div>
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full sm:w-auto"
+            className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 w-full sm:w-auto"
             type="submit"
           >
             {editingTask ? 'Simpan Perubahan' : 'Tambah Tugas'}
           </button>
         </form>
 
-        <h2 className="text-2xl font-bold mt-8 mb-4">Daftar Tugas Belum Selesai</h2>
+        {/* Daftar Tugas */}
+        <h2 className="text-3xl font-bold text-orange-500 mt-10 mb-6">Daftar Tugas Belum Selesai</h2>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-            <thead className="bg-gray-200">
+          <table className="min-w-full bg-gray-800 shadow-md rounded-lg overflow-hidden">
+            <thead className="bg-orange-500">
               <tr>
-                <th className="py-2 px-4 border-b">Nama Tugas</th>
-                <th className="py-2 px-4 border-b">Prioritas</th>
-                <th className="py-2 px-4 border-b">Status</th>
-                <th className="py-2 px-4 border-b">Tanggal</th>
-                <th className="py-2 px-4 border-b">Aksi</th>
+                <th className="py-3 px-4 border-b text-white">Nama Tugas</th>
+                <th className="py-3 px-4 border-b text-white">Prioritas</th>
+                <th className="py-3 px-4 border-b text-white">Status</th>
+                <th className="py-3 px-4 border-b text-white">Tanggal</th>
+                <th className="py-3 px-4 border-b text-white">Aksi</th>
               </tr>
             </thead>
             <tbody>
               {incompleteTasks.map((task, index) => (
-                <tr key={index}>
-                  <td className="py-2 px-4 border-b">{task.nama}</td>
-                  <td className="py-2 px-4 border-b">{task.prioritas}</td>
-                  <td className="py-2 px-4 border-b">{task.status ? 'Selesai' : 'Belum Selesai'}</td>
-                  <td className="py-2 px-4 border-b">{task.tanggal}</td>
-                  <td className="py-2 px-4 border-b flex space-x-2">
+                <tr key={index} className="hover:bg-orange-500">
+                  <td className="py-3 px-4 border-b">{task.nama}</td>
+                  <td className="py-3 px-4 border-b">{task.prioritas}</td>
+                  <td className="py-3 px-4 border-b">{task.status ? 'Selesai' : 'Belum Selesai'}</td>
+                  <td className="py-3 px-4 border-b">{task.tanggal}</td>
+                  <td className="py-3 px-4 border-b flex space-x-2">
                     <button
-                      className="bg-blue-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
+                      className="bg-orange-500 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
                       onClick={() => handleUpdateTask(task.id, { status: !task.status })}
                     >
                       {task.status ? 'Tandai Belum Selesai' : 'Tandai Selesai'}
                     </button>
                     <button
-                      className="bg-yellow-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
+                      className="bg-yellow-500 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
                       onClick={() => handleEditTask(task)}
                     >
                       Edit
                     </button>
                     <button
-                      className="bg-red-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
+                      className="bg-red-500 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
                       onClick={() => handleDeleteTask(task.id)}
                     >
                       Hapus
@@ -211,40 +219,40 @@ const TambahDanDaftarTugas = () => {
           </table>
         </div>
 
-        <h2 className="text-2xl font-bold mt-8 mb-4">Daftar Tugas Telah Selesai</h2>
+        <h2 className="text-3xl font-bold text-orange-500 mt-10 mb-6">Daftar Tugas Telah Selesai</h2>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-            <thead className="bg-gray-200">
+          <table className="min-w-full bg-gray-800 shadow-md rounded-lg overflow-hidden">
+            <thead className="bg-orange-500">
               <tr>
-                <th className="py-2 px-4 border-b">Nama Tugas</th>
-                <th className="py-2 px-4 border-b">Prioritas</th>
-                <th className="py-2 px-4 border-b">Status</th>
-                <th className="py-2 px-4 border-b">Tanggal</th>
-                <th className="py-2 px-4 border-b">Aksi</th>
+                <th className="py-3 px-4 border-b text-white">Nama Tugas</th>
+                <th className="py-3 px-4 border-b text-white">Prioritas</th>
+                <th className="py-3 px-4 border-b text-white">Status</th>
+                <th className="py-3 px-4 border-b text-white">Tanggal</th>
+                <th className="py-3 px-4 border-b text-white">Aksi</th>
               </tr>
             </thead>
             <tbody>
               {completedTasks.map((task, index) => (
-                <tr key={index}>
-                  <td className="py-2 px-4 border-b">{task.nama}</td>
-                  <td className="py-2 px-4 border-b">{task.prioritas}</td>
-                  <td className="py-2 px-4 border-b">{task.status ? 'Selesai' : 'Belum Selesai'}</td>
-                  <td className="py-2 px-4 border-b">{task.tanggal}</td>
-                  <td className="py-2 px-4 border-b flex space-x-2">
+                <tr key={index} className="hover:bg-orange-500">
+                  <td className="py-3 px-4 border-b">{task.nama}</td>
+                  <td className="py-3 px-4 border-b">{task.prioritas}</td>
+                  <td className="py-3 px-4 border-b">{task.status ? 'Selesai' : 'Belum Selesai'}</td>
+                  <td className="py-3 px-4 border-b">{task.tanggal}</td>
+                  <td className="py-3 px-4 border-b flex space-x-2">
                     <button
-                      className="bg-blue-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
+                      className="bg-orange-500 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
                       onClick={() => handleUpdateTask(task.id, { status: !task.status })}
                     >
                       {task.status ? 'Tandai Belum Selesai' : 'Tandai Selesai'}
                     </button>
                     <button
-                      className="bg-yellow-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
+                      className="bg-yellow-500 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-yellow-500"
                       onClick={() => handleEditTask(task)}
                     >
                       Edit
                     </button>
                     <button
-                      className="bg-red-500 text-white px-4 py-2 rounded focus:outline-none focus:shadow-outline"
+                      className="bg-red-500 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
                       onClick={() => handleDeleteTask(task.id)}
                     >
                       Hapus
@@ -255,7 +263,12 @@ const TambahDanDaftarTugas = () => {
             </tbody>
           </table>
         </div>
-      </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-orange-500 text-white py-6 shadow-md">
+        <p className="text-center">&copy; 2025 Aplikasi To-Do List. Semua Hak Dilindungi.</p>
+      </footer>
     </div>
   );
 };
