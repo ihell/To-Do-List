@@ -245,7 +245,7 @@ const TambahDanDaftarTugas = () => {
             className={`font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 w-full sm:w-auto ${
               isDarkMode
                 ? 'bg-orange-500 hover:bg-orange-600 text-white focus:ring-orange-500'
-                : 'bg-gray-800 hover:bg-gray-900 text-white focus:ring-gray-500'
+                : 'bg-orange-500 hover:bg-gray-900 text-white focus:ring-gray-500'
             }`}
             type="submit"
           >
