@@ -17,6 +17,12 @@ const TambahDanDaftarTugas = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark', !isDarkMode);
+  };
 
   /**
    * Mengambil data tugas dari Firestore saat komponen pertama kali dimuat.
@@ -114,12 +120,28 @@ const TambahDanDaftarTugas = () => {
   const incompleteTasks = sortedTasks.filter(task => !task.status);
 
   return (
-    <div className="bg-black min-h-screen h-full flex flex-col text-white overflow-hidden">
+    <div className={`min-h-screen h-full flex flex-col ${isDarkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
       {/* Header */}
       <header className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white py-6 px-4 sm:px-8 shadow-lg">
-        <h1 className="text-4xl font-bold text-center font-sans tracking-wide font-serif italic">
-          Taskly
-        </h1>
+        <div className="flex justify-between items-center">
+          <h1 className="text-4xl font-bold text-center font-sans tracking-wide font-serif italic">
+            Taskly
+          </h1>
+          <button
+            onClick={toggleDarkMode}
+            className="bg-gray-800 text-white px-4 py-2 rounded shadow-md hover:bg-gray-700 dark:bg-gray-200 dark:text-black dark:hover:bg-gray-300 flex items-center justify-center"
+          >
+            {isDarkMode ? (
+              <span role="img" aria-label="Sun" className="text-yellow-500 text-xl">
+                ☀️
+              </span>
+            ) : (
+              <span role="img" aria-label="Moon" className="text-gray-500 text-xl">
+                🌙
+              </span>
+            )}
+          </button>
+        </div>
         <p className="text-center text-sm mt-2 font-light">
           Kelola tugas Anda dengan mudah dan efisien
         </p>
@@ -143,15 +165,26 @@ const TambahDanDaftarTugas = () => {
             }
             form.reset();
           }}
-          className="space-y-6 bg-gray-800 p-6 rounded-lg shadow-md"
+          className={`space-y-6 p-6 rounded-lg shadow-md ${
+            isDarkMode ? 'bg-gray-800 text-gray-300' : 'bg-white text-black'
+          }`}
         >
           {/* Form fields */}
           <div>
-            <label className="block text-orange-500 text-sm font-bold mb-2" htmlFor="nama">
+            <label
+              className={`block text-sm font-bold mb-2 ${
+                isDarkMode ? 'text-orange-500' : 'text-gray-700'
+              }`}
+              htmlFor="nama"
+            >
               Nama Tugas
             </label>
             <input
-              className="shadow appearance-none border border-orange-500 rounded w-full py-2 px-3 text-gray-300 bg-black leading-tight focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className={`shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 ${
+                isDarkMode
+                  ? 'border-orange-500 bg-black text-gray-300 focus:ring-orange-500'
+                  : 'border-gray-300 bg-white text-black focus:ring-gray-500'
+              }`}
               id="nama"
               type="text"
               placeholder="Nama Tugas"
@@ -161,11 +194,20 @@ const TambahDanDaftarTugas = () => {
             />
           </div>
           <div>
-            <label className="block text-orange-500 text-sm font-bold mb-2" htmlFor="prioritas">
+            <label
+              className={`block text-sm font-bold mb-2 ${
+                isDarkMode ? 'text-orange-500' : 'text-gray-700'
+              }`}
+              htmlFor="prioritas"
+            >
               Prioritas
             </label>
             <select
-              className="shadow appearance-none border border-orange-500 rounded w-full py-2 px-3 text-gray-300 bg-black leading-tight focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className={`shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 ${
+                isDarkMode
+                  ? 'border-orange-500 bg-black text-gray-300 focus:ring-orange-500'
+                  : 'border-gray-300 bg-white text-black focus:ring-gray-500'
+              }`}
               id="prioritas"
               name="prioritas"
               defaultValue={editingTask ? editingTask.prioritas : ''}
@@ -177,11 +219,20 @@ const TambahDanDaftarTugas = () => {
             </select>
           </div>
           <div>
-            <label className="block text-orange-500 text-sm font-bold mb-2" htmlFor="tanggal">
+            <label
+              className={`block text-sm font-bold mb-2 ${
+                isDarkMode ? 'text-orange-500' : 'text-gray-700'
+              }`}
+              htmlFor="tanggal"
+            >
               Tanggal
             </label>
             <input
-              className="shadow appearance-none border border-orange-500 rounded w-full py-2 px-3 text-gray-300 bg-black leading-tight focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className={`shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:ring-2 ${
+                isDarkMode
+                  ? 'border-orange-500 bg-black text-gray-300 focus:ring-orange-500'
+                  : 'border-gray-300 bg-white text-black focus:ring-gray-500'
+              }`}
               id="tanggal"
               type="date"
               placeholder="Tanggal"
@@ -191,7 +242,11 @@ const TambahDanDaftarTugas = () => {
             />
           </div>
           <button
-            className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-orange-500 w-full sm:w-auto"
+            className={`font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 w-full sm:w-auto ${
+              isDarkMode
+                ? 'bg-orange-500 hover:bg-orange-600 text-white focus:ring-orange-500'
+                : 'bg-gray-800 hover:bg-gray-900 text-white focus:ring-gray-500'
+            }`}
             type="submit"
           >
             {editingTask ? 'Simpan Perubahan' : 'Tambah Tugas'}
@@ -211,14 +266,18 @@ const TambahDanDaftarTugas = () => {
                 <th className="py-3 px-4 border-b text-white">Aksi</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody
+              className={`${
+                isDarkMode ? 'bg-gray-800 text-gray-300' : 'bg-white text-black'
+              }`}
+            >
               {incompleteTasks.map((task, index) => (
                 <tr key={index} className="hover:bg-orange-500">
                   <td className="py-3 px-4 border-b">{task.nama}</td>
                   <td className="py-3 px-4 border-b">{task.prioritas}</td>
                   <td className="py-3 px-4 border-b">{task.status ? 'Selesai' : 'Belum Selesai'}</td>
                   <td className="py-3 px-4 border-b">{task.tanggal}</td>
-                  <td className="py-3 px-4 border-b flex space-x-2">
+                  <td className="py-3 px-4 flex space-x-2">
                     <button
                       className="bg-orange-500 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
                       onClick={() => handleUpdateTask(task.id, { status: !task.status })}
@@ -256,14 +315,18 @@ const TambahDanDaftarTugas = () => {
                 <th className="py-3 px-4 border-b text-white">Aksi</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody
+               className={`${
+                isDarkMode ? 'bg-gray-800 text-gray-300' : 'bg-white text-black'
+              }`}
+            >
               {completedTasks.map((task, index) => (
                 <tr key={index} className="hover:bg-orange-500">
                   <td className="py-3 px-4 border-b">{task.nama}</td>
                   <td className="py-3 px-4 border-b">{task.prioritas}</td>
                   <td className="py-3 px-4 border-b">{task.status ? 'Selesai' : 'Belum Selesai'}</td>
                   <td className="py-3 px-4 border-b">{task.tanggal}</td>
-                  <td className="py-3 px-4 border-b flex space-x-2">
+                  <td className="py-3 px-4 flex space-x-2">
                     <button
                       className="bg-orange-500 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
                       onClick={() => handleUpdateTask(task.id, { status: !task.status })}
